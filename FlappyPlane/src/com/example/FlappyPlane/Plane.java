@@ -43,8 +43,6 @@ public class Plane {
     protected float mCurrentPlaneAngle = PLANE_MAX_FLAP_ANGLE;
 
 
-    //plane
-    private static BuildableBitmapTextureAtlas mPlaneBitmapTextureAtlas;
     private static TiledTextureRegion mPlaneTextureRegion;
 
     // sounds
@@ -53,7 +51,7 @@ public class Plane {
     public static void onCreateResources(SimpleBaseGameActivity activity){
 
         // plane
-        mPlaneBitmapTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), (int)BITMAP_WIDTH, (int)BITMAP_HEIGHT, TextureOptions.NEAREST);
+        BuildableBitmapTextureAtlas mPlaneBitmapTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), (int) BITMAP_WIDTH, (int) BITMAP_HEIGHT, TextureOptions.NEAREST);
         mPlaneTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mPlaneBitmapTextureAtlas, activity, "planemap.png", 3, 3);
         try {
             mPlaneBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
@@ -126,13 +124,11 @@ public class Plane {
         mJumpSound.play();
     }
 
-    // hover stuff
-    private static float WRAPAROUND_POINT = (float) (2 * Math.PI);
-
     private float mHoverStep = 0;
 
     public void hover(){
         mHoverStep+=0.13f;
+        float WRAPAROUND_POINT = (float) (2 * Math.PI);
         if(mHoverStep > WRAPAROUND_POINT) mHoverStep = 0;
 
         float newY = mPlaneYOffset + ((float) (14 * Math.sin(mHoverStep)));

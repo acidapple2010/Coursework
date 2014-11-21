@@ -51,10 +51,12 @@ public class Ring {
         super();
         this.mScene = mScene;
 
+        //noinspection SuspiciousNameCombination
         mRingTop = new Sprite(RING_Y_OFFSET, mOpeningHeight - 100, 25, 9, mRingTopTexture, mVertexBufferObjectManager);
         mRingTop.setZIndex(2);
         mScene.attachChild(mRingTop);
 
+        //noinspection SuspiciousNameCombination
         mRingDown = new Sprite(RING_Y_OFFSET, mOpeningHeight + 42, 24, 7, mRingDownTexture, mVertexBufferObjectManager);
         mRingDown.setZIndex(2);
         mScene.attachChild(mRingDown);
@@ -78,10 +80,7 @@ public class Ring {
 
     public boolean isOnScreen() {
 
-        if (mRingLeft.getX() < -100) {
-            return false;
-        }
-        return true;
+        return mRingLeft.getX() >= -100;
     }
 
     boolean counted = false;
@@ -112,10 +111,7 @@ public class Ring {
 
     public boolean collidesWith(Sprite plane) {
 
-        if (mRingTop.collidesWith(plane)||mRingDown.collidesWith(plane) ){
-            return true;
-        }
-        return false;
+        return mRingTop.collidesWith(plane) || mRingDown.collidesWith(plane);
 
     }
 }

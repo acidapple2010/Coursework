@@ -16,7 +16,7 @@ public class ScoreManager {
 			SharedPreferences prefs = context.getSharedPreferences(context.getPackageName() + ".score", Context.MODE_PRIVATE);
 			Editor editor = prefs.edit();
 			editor.putInt("bestscore", newScore);
-			editor.commit();
+			editor.apply();
 		}
 	}
 }

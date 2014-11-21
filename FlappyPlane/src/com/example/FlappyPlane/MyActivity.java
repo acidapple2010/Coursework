@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 public class MyActivity extends SimpleBaseGameActivity {
 
+    public static final float PAUSE_BEFORE_GAME_RESTART = 3.0f;
     public static float CAMERA_WIDTH = 485;
     public static final float CAMERA_HEIGHT = 800;
     private static final float SCROLL_SPEED = 5.5f;
@@ -35,10 +36,7 @@ public class MyActivity extends SimpleBaseGameActivity {
     private SceneManager mSceneManager;
     private ResourceManager mResourceManager;
     private Scene mScene;
-    private Camera mCamera;
 
-    // sprites
-    private ParallaxBackground mBackground;
     private ArrayList<Ring> rings = new ArrayList<Ring>();
 
     // game variables
@@ -48,9 +46,9 @@ public class MyActivity extends SimpleBaseGameActivity {
     @Override
     public EngineOptions onCreateEngineOptions() {
 
-        CAMERA_WIDTH = ScreenSizeHelper.calculateScreenWidth(this, CAMERA_HEIGHT);
+        CAMERA_WIDTH = com.example.FlappyPlane.ScreenSizeHelper.calculateScreenWidth(this, CAMERA_HEIGHT);
 
-        mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT) {
+        Camera mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT) {
 
             private int mRingSpawnCounter;
 
@@ -69,6 +67,9 @@ public class MyActivity extends SimpleBaseGameActivity {
 
                     case STATE_DYING:
                         die();
+                        break;
+
+                    default:
                         break;
                 }
 
@@ -138,8 +139,8 @@ public class MyActivity extends SimpleBaseGameActivity {
     }
 
     protected void spawnNewRing() {
-        int Min = 100;
-        int Max = 597;
+        final int Min = 100;
+        final int Max = 597;
         int spawn = Min + (int) (Math.random() * ((Max - Min) +1));
         Ring newRings = new Ring(spawn, this.getVertexBufferObjectManager(), mScene);
         rings.add(newRings);
@@ -154,7 +155,7 @@ public class MyActivity extends SimpleBaseGameActivity {
     @Override
     protected Scene onCreateScene() {
 
-        mBackground = new ParallaxBackground(82 / 255f, 190 / 255f, 206 / 255f) {
+        ParallaxBackground mBackground = new ParallaxBackground(82 / 255f, 190 / 255f, 206 / 255f) {
 
             float prevX = 0;
             float parallaxValueOffset = 0;
@@ -162,19 +163,15 @@ public class MyActivity extends SimpleBaseGameActivity {
             @Override
             public void onUpdate(float pSecondsElapsed) {
 
-                switch (GAME_STATE) {
+                if (GAME_STATE==STATE_READY || GAME_STATE== STATE_PLAYING){
+                    final float cameraCurrentX = mCurrentWorldPosition;
 
-                    case STATE_READY:
-                    case STATE_PLAYING:
-                        final float cameraCurrentX = mCurrentWorldPosition;
-
-                        if (prevX != cameraCurrentX) {
-
-                            parallaxValueOffset += cameraCurrentX - prevX;
-                            this.setParallaxValue(parallaxValueOffset);
-                            prevX = cameraCurrentX;
-                        }
-                        break;
+                    if (prevX != cameraCurrentX)
+                    {
+                        parallaxValueOffset += cameraCurrentX - prevX;
+                        this.setParallaxValue(parallaxValueOffset);
+                        prevX = cameraCurrentX;
+                    }
                 }
 
                 super.onUpdate(pSecondsElapsed);
@@ -201,6 +198,12 @@ public class MyActivity extends SimpleBaseGameActivity {
                             break;
 
                         case STATE_DEAD:
+                            mTimer.setTimerSeconds(0.1f);
+                            mTimer.reset();
+
+                            break;
+
+                        default:
                             break;
                     }
                 }
@@ -257,7 +260,7 @@ public class MyActivity extends SimpleBaseGameActivity {
 
         GAME_STATE = STATE_DEAD;
 
-        mTimer = new TimerHandler(2.0f, false, new ITimerCallback() {
+        mTimer = new TimerHandler(PAUSE_BEFORE_GAME_RESTART, false, new ITimerCallback() {
             @Override
             public void onTimePassed(final TimerHandler pTimerHandler) {
                 mScene.detachChild(mSceneManager.mYouLooseText);
@@ -276,8 +279,7 @@ public class MyActivity extends SimpleBaseGameActivity {
         mScore = 0;
         updateScore();
 
-        for (int i = 0; i < rings.size(); i++) {
-            Ring ring = rings.get(i);
+        for (Ring ring : rings) {
             ring.destroy();
         }
         rings.clear();
