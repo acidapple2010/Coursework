@@ -17,31 +17,28 @@ import java.util.ArrayList;
 public class MyActivity extends SimpleBaseGameActivity {
 
     public static final float PAUSE_BEFORE_GAME_RESTART = 3.0f;
-    public static float CAMERA_WIDTH = 485;
+    public static final int MINIMAL_RING_VERTICAL_POSITION = 0;
+    public static final int MIAXIMUM_RING_VERTICAL_POSITION = 497;
     public static final float CAMERA_HEIGHT = 800;
-    private static final float SCROLL_SPEED = 5.5f;
     public static final float FLOOR_BOUND = 601;
     protected static final int RING_SPAWN_INTERVAL = 100;
-
     // game states
     protected static final int STATE_READY = 1;
     protected static final int STATE_PLAYING = 2;
     protected static final int STATE_DYING = 3;
     protected static final int STATE_DEAD = 4;
-
+    private static final float SCROLL_SPEED = 5.5f;
+    public static float CAMERA_WIDTH = 485;
+    protected float mCurrentWorldPosition;
     private int GAME_STATE = STATE_READY;
-
     // objects
     private TimerHandler mTimer;
     private SceneManager mSceneManager;
     private ResourceManager mResourceManager;
     private Scene mScene;
-
     private ArrayList<Ring> rings = new ArrayList<Ring>();
-
     // game variables
     private int mScore = 0;
-    protected float mCurrentWorldPosition;
 
     @Override
     public EngineOptions onCreateEngineOptions() {
@@ -139,9 +136,9 @@ public class MyActivity extends SimpleBaseGameActivity {
     }
 
     protected void spawnNewRing() {
-        final int Min = 100;
-        final int Max = 597;
-        int spawn = Min + (int) (Math.random() * ((Max - Min) +1));
+        final int Min = MINIMAL_RING_VERTICAL_POSITION;
+        final int Max = MIAXIMUM_RING_VERTICAL_POSITION;
+        int spawn = Min + (int) (Math.random() * ((Max - Min) + 1));
         Ring newRings = new Ring(spawn, this.getVertexBufferObjectManager(), mScene);
         rings.add(newRings);
     }
@@ -163,11 +160,10 @@ public class MyActivity extends SimpleBaseGameActivity {
             @Override
             public void onUpdate(float pSecondsElapsed) {
 
-                if (GAME_STATE==STATE_READY || GAME_STATE== STATE_PLAYING){
+                if (GAME_STATE == STATE_READY || GAME_STATE == STATE_PLAYING) {
                     final float cameraCurrentX = mCurrentWorldPosition;
 
-                    if (prevX != cameraCurrentX)
-                    {
+                    if (prevX != cameraCurrentX) {
                         parallaxValueOffset += cameraCurrentX - prevX;
                         this.setParallaxValue(parallaxValueOffset);
                         prevX = cameraCurrentX;
@@ -292,7 +288,7 @@ public class MyActivity extends SimpleBaseGameActivity {
     @Override
     public final void onPause() {
         super.onPause();
-        if (mResourceManager!=null && mResourceManager.mMusic!=null) {
+        if (mResourceManager != null && mResourceManager.mMusic != null) {
             mResourceManager.mMusic.pause();
         }
     }
