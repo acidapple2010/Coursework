@@ -19,6 +19,7 @@ public class SceneManager {
     Sprite mInstructions2Sprite;
     Text mYouLooseText;
     Plane mPlane;
+    MyOrientationManager mOrientation;
     private SimpleBaseGameActivity mContext;
     private ResourceManager mResourceManager;
     private ParallaxBackground mParallaxBackground;
@@ -47,8 +48,8 @@ public class SceneManager {
 
 
         // plane
-        float planeStartXOffset = (MyActivity.CAMERA_WIDTH / 4) - (Plane.PLANE_WIDTH / 4);
-        float planeYOffset = (MyActivity.CAMERA_HEIGHT / 2) - (Plane.PLANE_HEIGHT / 4);
+        float planeStartXOffset = (MyActivity.CAMERA_WIDTH / 6) - (Plane.PLANE_WIDTH / 4) - 20;
+        float planeYOffset = (MyActivity.CAMERA_HEIGHT / 2) - (Plane.PLANE_HEIGHT / 4) + 20;
         mPlane = new Plane(planeStartXOffset, planeYOffset, mContext.getVertexBufferObjectManager(), mScene);
 
         //score
@@ -75,11 +76,12 @@ public class SceneManager {
         centerSprite(mInstructions2Sprite);
         mInstructions2Sprite.setY(mInstructions2Sprite.getY() + 70);
 
-
-        // you suck text
+        // you loose text
         mYouLooseText = new Text(0, MyActivity.CAMERA_HEIGHT / 2 - 100, mResourceManager.mYouLooseFont, "You Loose!", new TextOptions(HorizontalAlign.CENTER), mContext.getVertexBufferObjectManager());
         mYouLooseText.setZIndex(3);
         centerText(mYouLooseText);
+
+        mOrientation = new MyOrientationManager(mContext);
 
         return mScene;
     }
