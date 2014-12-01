@@ -182,11 +182,16 @@ public class MyActivity extends SimpleBaseGameActivity {
             @Override
             public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
                 if (pSceneTouchEvent.isActionDown()) {
-
                     switch (GAME_STATE) {
 
                         case STATE_READY:
-                            startPlaying();
+                            if(pSceneTouchEvent.getX() >= mSceneManager.mInstructionsSprite.getX() &&
+                               pSceneTouchEvent.getX() < (mSceneManager.mInstructionsSprite.getX() + mSceneManager.mInstructionsSprite.getWidth()) &&
+                               pSceneTouchEvent.getY() >= mSceneManager.mInstructionsSprite.getY() &&
+                               pSceneTouchEvent.getY() < (mSceneManager.mInstructionsSprite.getY() + mSceneManager.mInstructionsSprite.getHeight()))
+                            {
+                                startPlaying();
+                            }
                             break;
 
                         case STATE_PLAYING:
