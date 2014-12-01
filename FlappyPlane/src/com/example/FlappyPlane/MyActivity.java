@@ -22,6 +22,7 @@ public class MyActivity extends SimpleBaseGameActivity {
     public static final float CAMERA_HEIGHT = 800;
     public static final float FLOOR_BOUND = 601;
     protected static final int RING_SPAWN_INTERVAL = 100;
+    public static boolean tap_or_orient;
     // game states
     protected static final int STATE_READY = 1;
     protected static final int STATE_PLAYING = 2;
@@ -84,14 +85,14 @@ public class MyActivity extends SimpleBaseGameActivity {
             }
 
             private void die() {
-                float newY = mSceneManager.mPlane.move();
+                float newY = mSceneManager.mPlane.move(true);
                 if (newY >= FLOOR_BOUND) dead();
             }
 
             private void play() {
 
                 mCurrentWorldPosition -= SCROLL_SPEED;
-                float newY = mSceneManager.mPlane.move(); // get the plane to update itself
+                float newY = mSceneManager.mPlane.move(tap_or_orient); // get the plane to update itself
                 if (newY >= FLOOR_BOUND) gameOver();
 
                 // now create rings
@@ -186,16 +187,26 @@ public class MyActivity extends SimpleBaseGameActivity {
 
                         case STATE_READY:
                             if(pSceneTouchEvent.getX() >= mSceneManager.mInstructionsSprite.getX() &&
-                               pSceneTouchEvent.getX() < (mSceneManager.mInstructionsSprite.getX() + mSceneManager.mInstructionsSprite.getWidth()) &&
-                               pSceneTouchEvent.getY() >= mSceneManager.mInstructionsSprite.getY() &&
-                               pSceneTouchEvent.getY() < (mSceneManager.mInstructionsSprite.getY() + mSceneManager.mInstructionsSprite.getHeight()))
+                                    pSceneTouchEvent.getX() < (mSceneManager.mInstructionsSprite.getX() + mSceneManager.mInstructionsSprite.getWidth()) &&
+                                    pSceneTouchEvent.getY() >= mSceneManager.mInstructionsSprite.getY() + 112 &&
+                                    pSceneTouchEvent.getY() < (mSceneManager.mInstructionsSprite.getY() + mSceneManager.mInstructionsSprite.getHeight()))
                             {
+                                tap_or_orient = true;//tap
+                                startPlaying();
+                            }
+                            if(pSceneTouchEvent.getX() >= mSceneManager.mInstructions2Sprite.getX() &&
+                                    pSceneTouchEvent.getX() < (mSceneManager.mInstructions2Sprite.getX() + mSceneManager.mInstructions2Sprite.getWidth()) &&
+                                    pSceneTouchEvent.getY() >= mSceneManager.mInstructions2Sprite.getY() &&
+                                    pSceneTouchEvent.getY() < (mSceneManager.mInstructions2Sprite.getY() + mSceneManager.mInstructions2Sprite.getHeight()))
+                            {
+                                tap_or_orient = false;//orient
                                 startPlaying();
                             }
                             break;
 
                         case STATE_PLAYING:
-                            mSceneManager.mPlane.flap();
+                            if(tap_or_orient)
+                                mSceneManager.mPlane.flap();
                             break;
 
                         case STATE_DEAD:
@@ -242,9 +253,10 @@ public class MyActivity extends SimpleBaseGameActivity {
         mResourceManager.mMusic.seekTo(0);
         mScene.detachChild(mSceneManager.mGetReadyText);
         mScene.detachChild(mSceneManager.mInstructionsSprite);
-        mScene.detachChild(mSceneManager.mCopyText);
+        mScene.detachChild(mSceneManager.mInstructions2Sprite);
         updateScore();
-        mSceneManager.mPlane.flap();
+        if(tap_or_orient)
+            mSceneManager.mPlane.flap();
     }
 
     private void gameOver() {
@@ -287,7 +299,7 @@ public class MyActivity extends SimpleBaseGameActivity {
 
         mScene.attachChild(mSceneManager.mGetReadyText);
         mScene.attachChild(mSceneManager.mInstructionsSprite);
-        mScene.attachChild(mSceneManager.mCopyText);
+        mScene.attachChild(mSceneManager.mInstructions2Sprite);
     }
 
     @Override

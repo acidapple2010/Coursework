@@ -16,7 +16,7 @@ public class SceneManager {
     Text mScoreText;
     Text mGetReadyText;
     Sprite mInstructionsSprite;
-    Text mCopyText;
+    Sprite mInstructions2Sprite;
     Text mYouLooseText;
     Plane mPlane;
     private SimpleBaseGameActivity mContext;
@@ -57,7 +57,7 @@ public class SceneManager {
         mScene.attachChild(mScoreText);
 
         // get ready text
-        mGetReadyText = new Text(0, 220, mResourceManager.mGetReadyFont, "Get Ready!", new TextOptions(HorizontalAlign.CENTER), mContext.getVertexBufferObjectManager());
+        mGetReadyText = new Text(0, 170, mResourceManager.mGetReadyFont, "Get Ready!", new TextOptions(HorizontalAlign.CENTER), mContext.getVertexBufferObjectManager());
         mGetReadyText.setZIndex(3);
         mScene.attachChild(mGetReadyText);
         centerText(mGetReadyText);
@@ -67,14 +67,13 @@ public class SceneManager {
         mInstructionsSprite.setZIndex(3);
         mScene.attachChild(mInstructionsSprite);
         centerSprite(mInstructionsSprite);
-        mInstructionsSprite.setY(mInstructionsSprite.getY() + 20);
+        mInstructionsSprite.setY(mInstructionsSprite.getY() - 60);
 
-
-        // copy text //"(c) Dean Wild 2014"
-        mCopyText = new Text(0, 750, mResourceManager.mCopyFont, "", new TextOptions(HorizontalAlign.CENTER), mContext.getVertexBufferObjectManager());
-        mCopyText.setZIndex(3);
-        mScene.attachChild(mCopyText);
-        centerText(mCopyText);
+        mInstructions2Sprite = new Sprite(0, 0, 200, 53, mResourceManager.mInstructions2Texture, mContext.getVertexBufferObjectManager());
+        mInstructions2Sprite.setZIndex(3);
+        mScene.attachChild(mInstructions2Sprite);
+        centerSprite(mInstructions2Sprite);
+        mInstructions2Sprite.setY(mInstructions2Sprite.getY() + 70);
 
 
         // you suck text

@@ -85,32 +85,36 @@ public class Plane {
         mSprite.setX(mPlaneXOffset);
         mCurrentPlaneAngle = 0;
         mSprite.setRotation(mCurrentPlaneAngle);
+        mVerticalSpeed = 0;
     }
 
-    public float move() {
+    public float move(boolean tap_or_orient) {
 
         float newY = mSprite.getY() + mVerticalSpeed;
         newY = Math.max(newY, 0);
         newY = Math.min(newY, MyActivity.FLOOR_BOUND);
         mSprite.setY(newY);
 
-        // now calculate the new speed
-        mAcceleration += GRAVITY;
-        mVerticalSpeed += mAcceleration;
-        mVerticalSpeed = Math.min(mVerticalSpeed, MAX_DROP_SPEED);
+        if(tap_or_orient) {
+            // now calculate the new speed
+            mAcceleration += GRAVITY;
+            mVerticalSpeed += mAcceleration;
+            mVerticalSpeed = Math.min(mVerticalSpeed, MAX_DROP_SPEED);
 
-        if (mVerticalSpeed <= (FLAP_POWER)) {
-            mCurrentPlaneAngle -= PLANE_FLAP_ANGLE_POWER;
+            if (mVerticalSpeed <= (FLAP_POWER)) {
+                mCurrentPlaneAngle -= PLANE_FLAP_ANGLE_POWER;
+            } else {
+                mCurrentPlaneAngle += FLAP_ANGLE_DRAG;
+            }
+
+            mCurrentPlaneAngle = Math.max(mCurrentPlaneAngle, PLANE_MAX_FLAP_ANGLE);
+            mCurrentPlaneAngle = Math.min(mCurrentPlaneAngle, PLANE_MAX_DROP_ANGLE);
+
+            // now apply bird angle based on current speed
+            mSprite.setRotation(mCurrentPlaneAngle);
         } else {
-            mCurrentPlaneAngle += FLAP_ANGLE_DRAG;
+            //TODO:orientation
         }
-
-        mCurrentPlaneAngle = Math.max(mCurrentPlaneAngle, PLANE_MAX_FLAP_ANGLE);
-        mCurrentPlaneAngle = Math.min(mCurrentPlaneAngle, PLANE_MAX_DROP_ANGLE);
-
-        // now apply bird angle based on current speed
-        mSprite.setRotation(mCurrentPlaneAngle);
-
         return newY;
     }
 

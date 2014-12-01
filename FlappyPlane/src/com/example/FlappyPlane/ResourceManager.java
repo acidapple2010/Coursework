@@ -26,6 +26,8 @@ public class ResourceManager {
     public static final int BACKGROUND_TEXTURE_HEIGHT = 1184;
     public static final int INSTRUCTIONS_TEXTURE_WIDTH = 285;
     public static final int INSTRUCTIONS_TEXTURE_HEIGHT = 245;
+    public static final int INSTRUCTIONS2_TEXTURE_WIDTH = 285;
+    public static final int INSTRUCTIONS2_TEXTURE_HEIGHT = 76;
     // fonts
     Font mScoreFont;
     Font mGetReadyFont;
@@ -41,6 +43,7 @@ public class ResourceManager {
     BitmapTextureAtlas mBackgroundBitmapTextureAtlas;
     ITextureRegion mBackgroundTextureRegion;
     TextureRegion mInstructionsTexture;
+    TextureRegion mInstructions2Texture;
 
     private SimpleBaseGameActivity context;
 
@@ -63,6 +66,9 @@ public class ResourceManager {
         BitmapTextureAtlas instructionsTextureAtlas = new BitmapTextureAtlas(context.getTextureManager(), INSTRUCTIONS_TEXTURE_WIDTH, INSTRUCTIONS_TEXTURE_HEIGHT, TextureOptions.BILINEAR);
         mInstructionsTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(instructionsTextureAtlas, context, "instructions.png", 0, 0);
         instructionsTextureAtlas.load();
+        BitmapTextureAtlas instructions2TextureAtlas = new BitmapTextureAtlas(context.getTextureManager(), INSTRUCTIONS2_TEXTURE_WIDTH, INSTRUCTIONS2_TEXTURE_HEIGHT, TextureOptions.BILINEAR);
+        mInstructions2Texture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(instructions2TextureAtlas, context, "instructions2.png", 0, 0);
+        instructions2TextureAtlas.load();
 
         Ring.onCreateResources(context); // let it sort its own resources out
         Plane.onCreateResources(context);
