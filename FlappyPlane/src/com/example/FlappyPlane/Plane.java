@@ -48,8 +48,9 @@ public class Plane {
     private AnimatedSprite mSprite;
     private float mPlaneYOffset, mPlaneXOffset;
     private float mHoverStep = 0;
+    private MyOrientationManager mOrient;
 
-    public Plane(float birdXOffset, float birdYOffset, VertexBufferObjectManager mVertexBufferObjectManager, Scene mScene) {
+    public Plane(float birdXOffset, float birdYOffset, VertexBufferObjectManager mVertexBufferObjectManager, Scene mScene, MyOrientationManager myOrientationManager) {
         this.mPlaneXOffset = birdXOffset;
         this.mPlaneYOffset = birdYOffset;
 
@@ -57,6 +58,7 @@ public class Plane {
         mSprite.animate(25);
         mSprite.setZIndex(2);
         mScene.attachChild(mSprite);
+        mOrient = myOrientationManager;
 
     }
 
@@ -113,7 +115,8 @@ public class Plane {
             // now apply bird angle based on current speed
             mSprite.setRotation(mCurrentPlaneAngle);
         } else {
-            //TODO:orientation
+            mSprite.setRotation(mOrient.getAngle());
+            mVerticalSpeed = (float) (Math.tan(Math.toRadians(mOrient.getAngle())) * MyActivity.SCROLL_SPEED);
         }
         return newY;
     }

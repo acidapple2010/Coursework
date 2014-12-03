@@ -28,7 +28,7 @@ public class MyActivity extends SimpleBaseGameActivity {
     protected static final int STATE_PLAYING = 2;
     protected static final int STATE_DYING = 3;
     protected static final int STATE_DEAD = 4;
-    private static final float SCROLL_SPEED = 5.5f;
+    public static final float SCROLL_SPEED = 5.5f;
     public static float CAMERA_WIDTH = 485;
     protected float mCurrentWorldPosition;
     private int GAME_STATE = STATE_READY;

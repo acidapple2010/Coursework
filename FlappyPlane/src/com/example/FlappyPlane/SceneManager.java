@@ -46,11 +46,12 @@ public class SceneManager {
         mScene.setBackground(mParallaxBackground);
         mScene.setBackgroundEnabled(true);
 
+        mOrientation = new MyOrientationManager(mContext);
 
         // plane
         float planeStartXOffset = (MyActivity.CAMERA_WIDTH / 6) - (Plane.PLANE_WIDTH / 4) - 20;
         float planeYOffset = (MyActivity.CAMERA_HEIGHT / 2) - (Plane.PLANE_HEIGHT / 4) + 20;
-        mPlane = new Plane(planeStartXOffset, planeYOffset, mContext.getVertexBufferObjectManager(), mScene);
+        mPlane = new Plane(planeStartXOffset, planeYOffset, mContext.getVertexBufferObjectManager(), mScene, mOrientation);
 
         //score
         mScoreText = new Text(0, 60, mResourceManager.mScoreFont, "        ", new TextOptions(HorizontalAlign.CENTER), mContext.getVertexBufferObjectManager());
@@ -80,8 +81,6 @@ public class SceneManager {
         mYouLooseText = new Text(0, MyActivity.CAMERA_HEIGHT / 2 - 100, mResourceManager.mYouLooseFont, "You Loose!", new TextOptions(HorizontalAlign.CENTER), mContext.getVertexBufferObjectManager());
         mYouLooseText.setZIndex(3);
         centerText(mYouLooseText);
-
-        mOrientation = new MyOrientationManager(mContext);
 
         return mScene;
     }
