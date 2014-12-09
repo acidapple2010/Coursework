@@ -21,8 +21,8 @@ import java.io.IOException;
 
 public class Plane {
 
-    public static final float BITMAP_WIDTH = 1047f;
-    public static final float BITMAP_HEIGHT = 903f;
+    public static final float BITMAP_WIDTH = 12002f;
+    public static final float BITMAP_HEIGHT = 850f;
     public static final float PLANE_WIDTH = 55.8f;
     public static final float PLANE_HEIGHT = 40f;
     protected static final float MAX_DROP_SPEED = 12.0f;
@@ -65,7 +65,7 @@ public class Plane {
     public static void onCreateResources(SimpleBaseGameActivity activity) {
         // plane
         BuildableBitmapTextureAtlas mPlaneBitmapTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), (int) BITMAP_WIDTH, (int) BITMAP_HEIGHT, TextureOptions.NEAREST);
-        mPlaneTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mPlaneBitmapTextureAtlas, activity, "planemap.png", PLANEMAP_X_COUNT, PLANEMAP_Y_COUNT);
+        mPlaneTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mPlaneBitmapTextureAtlas, activity, "planemap3.png", PLANEMAP_X_COUNT, PLANEMAP_Y_COUNT);
         try {
             mPlaneBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
             mPlaneBitmapTextureAtlas.load();

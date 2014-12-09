@@ -64,10 +64,10 @@ public class ResourceManager {
 
         // instructions img
         BitmapTextureAtlas instructionsTextureAtlas = new BitmapTextureAtlas(context.getTextureManager(), INSTRUCTIONS_TEXTURE_WIDTH, INSTRUCTIONS_TEXTURE_HEIGHT, TextureOptions.BILINEAR);
-        mInstructionsTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(instructionsTextureAtlas, context, "instructions.png", 0, 0);
+        mInstructionsTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(instructionsTextureAtlas, context, "instructions3.png", 0, 0);
         instructionsTextureAtlas.load();
         BitmapTextureAtlas instructions2TextureAtlas = new BitmapTextureAtlas(context.getTextureManager(), INSTRUCTIONS2_TEXTURE_WIDTH, INSTRUCTIONS2_TEXTURE_HEIGHT, TextureOptions.BILINEAR);
-        mInstructions2Texture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(instructions2TextureAtlas, context, "instructions2.png", 0, 0);
+        mInstructions2Texture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(instructions2TextureAtlas, context, "instructions4.png", 0, 0);
         instructions2TextureAtlas.load();
 
         Ring.onCreateResources(context); // let it sort its own resources out
