@@ -21,7 +21,7 @@ import java.io.IOException;
 
 public class Plane {
 
-    public static final float BITMAP_WIDTH = 12002f;
+    public static final float BITMAP_WIDTH = 1200f;
     public static final float BITMAP_HEIGHT = 850f;
     public static final float PLANE_WIDTH = 55.8f;
     public static final float PLANE_HEIGHT = 40f;
